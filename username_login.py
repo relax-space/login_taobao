@@ -59,10 +59,10 @@ class UsernameLogin:
             response.raise_for_status()
         except Exception as e:
             print('检测是否需要验证码请求失败，原因：')
-            raise e
+            return None,str(e)
         needcode = response.json()['needcode']
         print('是否需要滑块验证：{}'.format(needcode))
-        return needcode
+        return needcode,None
 
     def _verify_password(self):
         """
@@ -71,23 +71,23 @@ class UsernameLogin:
         """
         verify_password_headers = {
             'Connection': 'keep-alive',
-            'Cache-Control': 'max-age=0',
+            'Cache-Control': 'no-cache',
             'Origin': 'https://login.taobao.com',
             'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0',
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Referer': 'https://login.taobao.com/member/login.jhtml?from=taobaoindex&f=top&style=&sub=true&redirect_url=https%3A%2F%2Fi.taobao.com%2Fmy_taobao.htm',
+            'Referer': 'https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F',
         }
         # 登录toabao.com提交的数据，如果登录失败，可以从浏览器复制你的form data
         verify_password_data = {
             'TPL_username': self.username,
-            'ncoToken': 'cdf05a89ad5104403ebb12ebc9b7626af277b066',
+            'ncoToken': '81ba2ac20acdbe7846318af36a1cdaec6e5b82b8',
             'slideCodeShow': 'false',
             'useMobile': 'false',
             'lang': 'zh_CN',
             'loginsite': 0,
             'newlogin': 0,
-            'TPL_redirect_url': 'https://s.taobao.com/search?q=%E9%80%9F%E5%BA%A6%E9%80%9F%E5%BA%A6&imgfile=&commend=all&ssid=s5-e&search_type=item&sourceId=tb.index&spm=a21bo.2017.201856-taobao-item.1&ie=utf8&initiative_id=tbindexz_20170306',
+            'TPL_redirect_url': 'https://www.taobao.com/',
             'from': 'tb',
             'fc': 'default',
             'style': 'default',
@@ -97,21 +97,20 @@ class UsernameLogin:
             'newMini2': 'false',
             'loginType': '3',
             'gvfdcname': '10',
-            'gvfdcre': '68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D61323330722E312E3735343839343433372E372E33353836363032633279704A767526663D746F70266F75743D7472756526726564697265637455524C3D6874747073253341253246253246732E74616F62616F2E636F6D25324673656172636825334671253344253235453925323538302532353946253235453525323542412532354136253235453925323538302532353946253235453525323542412532354136253236696D6766696C65253344253236636F6D6D656E64253344616C6C2532367373696425334473352D652532367365617263685F747970652533446974656D253236736F75726365496425334474622E696E64657825323673706D253344613231626F2E323031372E3230313835362D74616F62616F2D6974656D2E31253236696525334475746638253236696E69746961746976655F69642533447462696E6465787A5F3230313730333036',
+            'gvfdcre': '68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643964555731426A26663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246',
             'TPL_password_2': self.TPL_password2,
             'loginASR': '1',
             'loginASRSuc': '1',
             'oslanguage': 'zh-CN',
-            'sr': '1440*900',
-            'osVer': 'macos|10.145',
-            'naviVer': 'chrome|76.038091',
+            'sr': '1920*1080',
+            'naviVer': 'firefox|71',
             'osACN': 'Mozilla',
-            'osAV': '5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36',
-            'osPF': 'MacIntel',
+            'osAV': '5.0 (Windows)',
+            'osPF': 'Win32',
             'appkey': '00000000',
-            'mobileLoginLink': 'https://login.taobao.com/member/login.jhtml?redirectURL=https://s.taobao.com/search?q=%E9%80%9F%E5%BA%A6%E9%80%9F%E5%BA%A6&imgfile=&commend=all&ssid=s5-e&search_type=item&sourceId=tb.index&spm=a21bo.2017.201856-taobao-item.1&ie=utf8&initiative_id=tbindexz_20170306&useMobile=true',
+            'mobileLoginLink': 'https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true',
             'showAssistantLink': '',
-            'um_token': 'T898C0FDF1A3CEE5389D682340C5F299FFE590F51543C8E3DDA8341C869',
+            'um_token': 'T0EC0F6614ED31DC032C7F3B6921A1A3A3E94A3DBBBECBB717941D00056',
             'ua': self.ua
         }
         try:
@@ -121,34 +120,36 @@ class UsernameLogin:
             # 从返回的页面中提取申请st码地址
         except Exception as e:
             print('验证用户名和密码请求失败，原因：')
-            raise e
+            return None, str(e)
         # 提取申请st码url
         apply_st_url_match = re.search(r'<script src="(.*?)"></script>', response.text)
         # 存在则返回
         if apply_st_url_match:
             print('验证用户名密码成功，st码申请地址：{}'.format(apply_st_url_match.group(1)))
-            return apply_st_url_match.group(1)
+            return apply_st_url_match.group(1),None
         else:
-            raise RuntimeError('用户名密码验证失败！response：{}'.format(response.text))
+            return None, '用户名密码验证失败！response：{}'.format(response.text)
 
     def _apply_st(self):
         """
         申请st码
         :return: st码
         """
-        apply_st_url = self._verify_password()
+        apply_st_url,err = self._verify_password()
+        if err != None:
+            return None,err
         try:
             response = s.get(apply_st_url)
             response.raise_for_status()
         except Exception as e:
             print('申请st码请求失败，原因：')
-            raise e
+            return None, str(e)
         st_match = re.search(r'"data":{"st":"(.*?)"}', response.text)
         if st_match:
             print('获取st码成功，st码：{}'.format(st_match.group(1)))
-            return st_match.group(1)
+            return st_match.group(1),None
         else:
-            raise RuntimeError('获取st码失败！response：{}'.format(response.text))
+            return None,'获取st码失败！response：{}'.format(response.text)
 
     def login(self):
         """
@@ -157,10 +158,16 @@ class UsernameLogin:
         """
         # 加载cookies文件
         if self._load_cookies():
-            return True
+            return None
         # 判断是否需要滑块验证
-        self._user_check()
-        st = self._apply_st()
+        need,err = self._user_check()
+        if err != None:
+            return err
+        if need == True:
+            return "需要滑块，请明天再重试"
+        st,err = self._apply_st()
+        if err != None:
+            return err
         headers = {
             'Host': 'login.taobao.com',
             'Connection': 'Keep-Alive',
@@ -171,26 +178,29 @@ class UsernameLogin:
             response.raise_for_status()
         except Exception as e:
             print('st码登录请求，原因：')
-            raise e
+            return str(e)
         # 登录成功，提取跳转淘宝用户主页url
         my_taobao_match = re.search(r'top.location.href = "(.*?)"', response.text)
         if my_taobao_match:
             print('登录淘宝成功，跳转链接：{}'.format(my_taobao_match.group(1)))
-            self._serialization_cookies()
-            return True
+            err = self._serialization_cookies()
+            if err != None:
+                return err
+            return None
         else:
-            raise RuntimeError('登录失败！response：{}'.format(response.text))
+            return '登录失败！response：{}'.format(response.text)
 
     def _load_cookies(self):
         # 1、判断cookies序列化文件是否存在
         if not os.path.exists(COOKIES_FILE_PATH):
             return False
         # 2、加载cookies
-        s.cookies = self._deserialization_cookies()
+        s.cookies,err = self._deserialization_cookies()
+        if err != None:
+            return False
         # 3、判断cookies是否过期
-        try:
-            self.get_taobao_nick_name()
-        except Exception as e:
+        _,err=self.get_taobao_nick_name()
+        if err != None:
             os.remove(COOKIES_FILE_PATH)
             print('cookies过期，删除cookies文件！')
             return False
@@ -202,20 +212,27 @@ class UsernameLogin:
         序列化cookies
         :return:
         """
-        cookies_dict = requests.utils.dict_from_cookiejar(s.cookies)
-        with open(COOKIES_FILE_PATH, 'w+', encoding='utf-8') as file:
-            json.dump(cookies_dict, file)
-            print('保存cookies文件成功！')
+        try:
+            cookies_dict = requests.utils.dict_from_cookiejar(s.cookies)
+            with open(COOKIES_FILE_PATH, 'w+', encoding='utf-8') as file:
+                json.dump(cookies_dict, file)
+                print('保存cookies文件成功！')
+                return None
+        except Exception as e:
+            return str(e)
 
     def _deserialization_cookies(self):
         """
         反序列化cookies
         :return:
         """
-        with open(COOKIES_FILE_PATH, 'r+', encoding='utf-8') as file:
-            cookies_dict = json.load(file)
-            cookies = requests.utils.cookiejar_from_dict(cookies_dict)
-            return cookies
+        try:
+            with open(COOKIES_FILE_PATH, 'r+', encoding='utf-8') as file:
+                cookies_dict = json.load(file)
+                cookies = requests.utils.cookiejar_from_dict(cookies_dict)
+                return cookies,None
+        except Exception as e:
+            return None, str(e)
 
     def get_taobao_nick_name(self):
         """
@@ -230,22 +247,23 @@ class UsernameLogin:
             response.raise_for_status()
         except Exception as e:
             print('获取淘宝主页请求失败！原因：')
-            raise e
+            return None, str(e)
         # 提取淘宝昵称
         nick_name_match = re.search(r'<input id="mtb-nickname" type="hidden" value="(.*?)"/>', response.text)
         if nick_name_match:
             print('登录淘宝成功，你的用户名是：{}'.format(nick_name_match.group(1)))
-            return nick_name_match.group(1)
+            return nick_name_match.group(1),None
         else:
-            raise RuntimeError('获取淘宝昵称失败！response：{}'.format(response.text))
+            return None,'获取淘宝昵称失败！response：{}'.format(response.text)
 
 
 if __name__ == '__main__':
     # 淘宝用户名
-    username = '你的用户名'
+    username = os.getenv("T_NAME")
     # 淘宝重要参数，从浏览器或抓包工具中复制，可重复使用
-    ua = ua = '119#MlKma56msEckrMMzpwSCmgNzxbdQaRlcBPmaXIoz1usOCPPTlaAYXAvkIAl6Tg2dmQPTrKdo29CxyU/mLlGMarUsz9bGztA8RJBONt7J9CiLfBMKME3fx2Nqk/xMdGLWRU6O8t7M5x2omSgOwtNLfU+S4lkGdoHsRIVXNEFL9eAzMSTozSo8uJOqBtmOyaHCRSVJcF8L8xqzRBsUdA3q9U+SLgR+deF7yJShN8lL9dXzRPqLo+Y8q2vp499wde3lR2KVt9kLEhEzR/sU3AFh9UNltxhLSHr8y2SVNEH093ASRPSM2IRe9/sdLUq7+MMOqC9gSCqOfoerT6smYcVg5JqMfCr70SmjkQVwgE7l+3grCrjB6Sc4xGvCtyLxy197yTuyzTUCQL3ItdRejyQq8hPbRuvwxi68oUWwdilfcUAQc0yTRhWEcwDbcFvDFG+nYdPvylWaIOAGUlsrTKWdppT7iLVsNH/Fnh088EtTbL+pBSbjWj5Pa8/fnARp/MZ6BEmHE+mDR7RDvhJfdhNaxHrGadtaGmbVvHYo0oR6wWqiOkSfH2vD9TqEpp4amiEByxXMG+JMFNin+TFzA/FxLpIqGUzIO/vKtVv6jhy0GWosbEz1YHSkXkPM8m455opHcnWeKNtKQSUGtljeUW4da8T7SeEE1DZjeQBqZagX2CVkZqSMeTE5slss8IYeC0FL14tBih8cLP+zuAEikLq35Fv9e75A/p+Yp2Qb8PZoacMTxyhxOMvJZ64+RxSTQskuJx4GIbifdptOpIUdiwe+BSh3k9nq6WEEaP0eX6u9ZXoSLs7BoZtHJ74Mu2Au+q+zAHG4fUBGKdOvLb/7iwy3yXofRIUsKNFnADN/sezd4l0/aZfcFL9LicBF3SMKBJkgagHgzLkjZfOiWs68UtO0MAIHMSyI3zrG+QdZRehgbbjGYLlwzbfEzToF1aKi+2t8wdUORclDXthMsTTzb5bhCcJjwY/Ms8+0STdOUsC6paC9svXcF7pPxuTtGY/7IWM260DuzGDYe8Q9GU2zFrFVyiYXBjY3ZGmfgsuMP/iDswoO23eucC9dYHRoK0IMHHHDOFDMAA016r400YX6eg47FIVexIF1pNCzhZvXTnBCbDgTT6nvcokIWAyd0kVwH33Sgap4Z3rj5rQyaAVwsUpH2hjve0lBNasoMfOr/hUuyIS5DHodjsZCO+nKqRKEPUryHf7Ma9v5g5J46kF5lL0aJMf6kxJhcSvaNMa4dWVhsk3UyDPG5xdRZBO6e2OlimMoN7f8AbVfZF9LJrBiVSgDWgq1zBC/tNhg7Wm+aLf+VxbtAxr1CjtSt89mGdDCUr9LWftfHyncXh1ub6A2HRBcfah9M/Rru13An1WGWqOf8Xh7QSRdDn3fOEVl/SesmxJyDKkE61/Ri3h7h+W2n87nmgIaAIVg8ovsFIN0OZm6J2CyxgCjis2GuCLurnSCAFgiRsm9IP6PQLk5/3llWSrFmVoDDtfJD9P5apjuae5IqWfJWiMfvyEfTevqmufTTTS+w74lFv6OSHMK3yI5P0Z1/CYipvytIx+l8X6SHj19NizLJPWkMimJXAp4Fy3hebN85g5N7oYrjdDYonYrIo0eN1Ps6iCIz5dOCRPd0GIWpMSsFDx9IzVcwUzdU0Wfa+zmMpBsPHquxm/pJTkSV/KVEQf4cw7Q'
+    ua = os.getenv("T_UA")
     # 加密后的密码，从浏览器或抓包工具中复制，可重复使用
-    TPL_password2 = '8a65e84dbd099e3eb728bfbbbf6ecb2b759b50745120e186ad94b171e369dac0d877d0c816d49898ea166d2842469dcec0435e88d4f534ee502967eafd30976ca0424f9c4a65bfb8b27c1cd8cf68a3c94be4fb7bd4102095f34cfbfca2649eee9ac3ee3d2785789fc4de15279cfab6d6984c90ab557bb1ee83c187a4fd25698d'
+    TPL_password2 = os.getenv("T_PWD2")
     ul = UsernameLogin(username, ua, TPL_password2)
-    ul.login()
+    err=ul.login()
+    print(err)
