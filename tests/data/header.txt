@@ -1,0 +1,16 @@
+
+POST /member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F HTTP/1.1
+Host: login.taobao.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 2786
+Origin: https://login.taobao.com
+Connection: keep-alive
+Referer: https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F
+Cookie: _uab_collina=157836170112456279868722; mt=ci=0_0; t=43449f292592335cd8e157ac6379125d; cookie2=19ea2558ef5a273e6556b3b4d5d9e322; _tb_token_=ee14100576bb7; isg=BNrac6FnUMbjkNxqy3QhAoxLKIA8o3bOKnGm6uRTG204V36RzZ6r9AnlI-PunNZ9; l=dBIyU6RmQTWo1LGQBOfZqsKV3KQT0IRVGkPzcZeXlICPO6fH5-QAWZDDkn8MCn1VnsZWJ35u5_48BP8utyznd9KwNBQ7XPQondLh.; XSRF-TOKEN=a0150c90-ea8b-4bbd-b2bd-301ee4f44f1e; v=0; cna=ZNGaFuaioG4CASRwajKEc6KI
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache
