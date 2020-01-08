@@ -38,17 +38,20 @@ class Gui:
     def copyHTMLPostLoop(self,name):
         click(x=self.tools_network_html.x, y=self.tools_network_html.y)
         header,param =None,None
-        for i  in range(0,10):
+        for i  in range(0,20):
             increment = i*30
             contents,err = self._copyContent(increment=increment)
+            contents = contents.strip()
             if err != None:
                 return None,error.invalid("gui header")
             if 'Cookie' not in contents:
                 continue
+            elif contents.startswith("POST") == False:
+                continue
             elif name not in contents:
                 continue
             header=contents
-            param,err = self._copyContent(command="d",increment=increment)
+            param,err = self._copyContent(command="D",increment=increment)
             if err != None:
                 return None,error.invalid("gui param")
             break
