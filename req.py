@@ -10,6 +10,15 @@ class Req:
     def __init__(self, ):
         pass
 
+    def readParamPostFile(self,filePath):
+        contents,err=file_.read(filePath)
+        if err != None:
+            return err
+        return self.readParamPost(contents)
+
+    def readParamPost(self,contents):
+        return utils.strToDict(contents)
+
     def readHeaderFile(self,filePath):
         contents,err=file_.read(filePath)
         if err != None:
@@ -66,7 +75,7 @@ class Req:
             if content.startswith(method):
                 return True
         return False
-
+ 
     
 
     

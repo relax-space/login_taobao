@@ -12,87 +12,89 @@ class TestReq(unittest.TestCase):
     
     def testReadHeader(self):
         str = """
-        GET /i/asynSearch.htm?_ksTS=1575667351284_693&callback=jsonp694&mid=w-14896417856-0&wid=14896417856&path=/category.htm HTTP/1.1
-
-Host: davebella.world.tmall.com
-
+POST /member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F HTTP/1.1
+Host: login.taobao.com
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
-
-Accept: text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01
-
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
-
 Accept-Encoding: gzip, deflate, br
-
-Referer: https://davebella.world.tmall.com/category.htm
-
-X-Requested-With: XMLHttpRequest
-
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 2786
+Origin: https://login.taobao.com
 Connection: keep-alive
-
-Cookie: cna=HkxQFdkfLWgCAS04mzUPF9vr; isg=BNzcapCY7QV0fJla2e3ZODixrvpO_ahU-AfgILbd_EeqAXyL3WWmD2JwZalckrjX; l=dBrlw9eIq8sAj4aGBOCwcuIRMGQ97IOYYuPRw2ZBi_5aX6L68CbOkhoKBFp6csWfT8Ye4_41Zzp9-etowXGR1d_fGzmxyxDc.; hng=CN%7Czh-CN%7CCNY; lid=xiaoxm_001; pnm_cku822=; t=0c7f408b84b590fbc69989916f491575; uc3=lg2=VFC%2FuZ9ayeYq2g%3D%3D&vt3=F8dByus%2B2Gg4F6q%2FuOM%3D&nk2=G4mgLCtQ61Ct4Q%3D%3D&id2=VAYhfVsUHpas; tracknick=xiaoxm_001; uc4=nk4=0%40GToWF7xjYYbAUv7x%2Fo2bwumbKiqP&id4=0%40Vh%2BzeYCIjUuF6BHgRPA5dDOIqLo%3D; lgc=xiaoxm_001; _tb_token_=e1dfeb3a306e; cookie2=11fe8bce6afc6cc4de9118c4ebecad78; _l_g_=Ug%3D%3D; _nk_=xiaoxm_001; dnk=xiaoxm_001; dnk=xiaoxm_001; uc1=cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cookie21=VFC%2FuZ9ainBZ&cookie15=VFC%2FuZ9ayeYq2g%3D%3D&existShop=false&pas=0&cookie14=UoTbmE0pYW6duw%3D%3D&tag=8&lng=zh_CN; _l_g_=Ug%3D%3D; unb=779592136; cookie1=BxoBh8tJNYJ8aIsSu%2Bo62b6SDl1SOXU%2Fivzz8KLg3r0%3D; login=true; cookie17=VAYhfVsUHpas; _nk_=xiaoxm_001; sg=169; csg=097330ee"""
-        actDto =req.Req().readHeader(str)
-        expDto={
-            "Host": "davebella.world.tmall.com",
+Referer: https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F
+Cookie: _uab_collina=157836170112456279868722; mt=ci=0_0; t=43449f292592335cd8e157ac6379125d; cookie2=19ea2558ef5a273e6556b3b4d5d9e322; _tb_token_=ee14100576bb7; isg=BNrac6FnUMbjkNxqy3QhAoxLKIA8o3bOKnGm6uRTG204V36RzZ6r9AnlI-PunNZ9; l=dBIyU6RmQTWo1LGQBOfZqsKV3KQT0IRVGkPzcZeXlICPO6fH5-QAWZDDkn8MCn1VnsZWJ35u5_48BP8utyznd9KwNBQ7XPQondLh.; XSRF-TOKEN=a0150c90-ea8b-4bbd-b2bd-301ee4f44f1e; v=0; cna=ZNGaFuaioG4CASRwajKEc6KI
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache"""
+        actDict =req.Req().readHeader(str)
+        del actDict["Cookie"]
+        expDict={
+            "Host": "login.taobao.com",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0",
-            "Accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
             "Accept-Encoding": "gzip, deflate, br",
-            "Referer": "https://davebella.world.tmall.com/category.htm",
-            "X-Requested-With": "XMLHttpRequest",
+
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Length": "2786",
+            "Origin": "https://login.taobao.com",
             "Connection": "keep-alive",
-            "Cookie": "cna=HkxQFdkfLWgCAS04mzUPF9vr; isg=BNzcapCY7QV0fJla2e3ZODixrvpO_ahU-AfgILbd_EeqAXyL3WWmD2JwZalckrjX; l=dBrlw9eIq8sAj4aGBOCwcuIRMGQ97IOYYuPRw2ZBi_5aX6L68CbOkhoKBFp6csWfT8Ye4_41Zzp9-etowXGR1d_fGzmxyxDc.; hng=CN%7Czh-CN%7CCNY; lid=xiaoxm_001; pnm_cku822=; t=0c7f408b84b590fbc69989916f491575; uc3=lg2=VFC%2FuZ9ayeYq2g%3D%3D&vt3=F8dByus%2B2Gg4F6q%2FuOM%3D&nk2=G4mgLCtQ61Ct4Q%3D%3D&id2=VAYhfVsUHpas; tracknick=xiaoxm_001; uc4=nk4=0%40GToWF7xjYYbAUv7x%2Fo2bwumbKiqP&id4=0%40Vh%2BzeYCIjUuF6BHgRPA5dDOIqLo%3D; lgc=xiaoxm_001; _tb_token_=e1dfeb3a306e; cookie2=11fe8bce6afc6cc4de9118c4ebecad78; _l_g_=Ug%3D%3D; _nk_=xiaoxm_001; dnk=xiaoxm_001; dnk=xiaoxm_001; uc1=cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cookie21=VFC%2FuZ9ainBZ&cookie15=VFC%2FuZ9ayeYq2g%3D%3D&existShop=false&pas=0&cookie14=UoTbmE0pYW6duw%3D%3D&tag=8&lng=zh_CN; _l_g_=Ug%3D%3D; unb=779592136; cookie1=BxoBh8tJNYJ8aIsSu%2Bo62b6SDl1SOXU%2Fivzz8KLg3r0%3D; login=true; cookie17=VAYhfVsUHpas; _nk_=xiaoxm_001; sg=169; csg=097330ee"
+            "Referer": "https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F",
+            
+            "Upgrade-Insecure-Requests": "1",
+            "Pragma": "no-cache",
+            "Cache-Control": "no-cache"
         }
-        self.assertEqual(actDto,expDto)
+        self.assertEqual(actDict,expDict)
 
     def testReadHeaderFile(self):
         filePath = utils.absPath("tests/data/header.txt")
-        actDto,err =req.Req().readHeaderFile(filePath)
+        actDict,err =req.Req().readHeaderFile(filePath)
+        del actDict["Cookie"]
         self.assertIsNone(err)
-        expDto={
-            "Host": "davebella.world.tmall.com",
+        expDict={
+            "Host": "login.taobao.com",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0",
-            "Accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
             "Accept-Encoding": "gzip, deflate, br",
-            "Referer": "https://davebella.world.tmall.com/category.htm",
-            "X-Requested-With": "XMLHttpRequest",
+
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Length": "2786",
+            "Origin": "https://login.taobao.com",
             "Connection": "keep-alive",
-            "Cookie": "cna=HkxQFdkfLWgCAS04mzUPF9vr; isg=BNzcapCY7QV0fJla2e3ZODixrvpO_ahU-AfgILbd_EeqAXyL3WWmD2JwZalckrjX; l=dBrlw9eIq8sAj4aGBOCwcuIRMGQ97IOYYuPRw2ZBi_5aX6L68CbOkhoKBFp6csWfT8Ye4_41Zzp9-etowXGR1d_fGzmxyxDc.; hng=CN%7Czh-CN%7CCNY; lid=xiaoxm_001; pnm_cku822=; t=0c7f408b84b590fbc69989916f491575; uc3=lg2=VFC%2FuZ9ayeYq2g%3D%3D&vt3=F8dByus%2B2Gg4F6q%2FuOM%3D&nk2=G4mgLCtQ61Ct4Q%3D%3D&id2=VAYhfVsUHpas; tracknick=xiaoxm_001; uc4=nk4=0%40GToWF7xjYYbAUv7x%2Fo2bwumbKiqP&id4=0%40Vh%2BzeYCIjUuF6BHgRPA5dDOIqLo%3D; lgc=xiaoxm_001; _tb_token_=e1dfeb3a306e; cookie2=11fe8bce6afc6cc4de9118c4ebecad78; _l_g_=Ug%3D%3D; _nk_=xiaoxm_001; dnk=xiaoxm_001; dnk=xiaoxm_001; uc1=cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cookie21=VFC%2FuZ9ainBZ&cookie15=VFC%2FuZ9ayeYq2g%3D%3D&existShop=false&pas=0&cookie14=UoTbmE0pYW6duw%3D%3D&tag=8&lng=zh_CN; _l_g_=Ug%3D%3D; unb=779592136; cookie1=BxoBh8tJNYJ8aIsSu%2Bo62b6SDl1SOXU%2Fivzz8KLg3r0%3D; login=true; cookie17=VAYhfVsUHpas; _nk_=xiaoxm_001; sg=169; csg=097330ee"
+            "Referer": "https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F",
+            
+            "Upgrade-Insecure-Requests": "1",
+            "Pragma": "no-cache",
+            "Cache-Control": "no-cache"
         }
-        self.assertEqual(actDto,expDto)
+        self.assertEqual(actDict,expDict)
     
     def testReadUrlParam(self):
         str = """
-        GET /i/asynSearch.htm?_ksTS=1575667351284_693&callback=jsonp694&mid=w-14896417856-0&wid=14896417856&path=/category.htm HTTP/1.1
-
-Host: davebella.world.tmall.com
-
+POST /member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F HTTP/1.1
+Host: login.taobao.com
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0
-
-Accept: text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01
-
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
-
 Accept-Encoding: gzip, deflate, br
-
-Referer: https://davebella.world.tmall.com/category.htm
-
-X-Requested-With: XMLHttpRequest
-
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 2786
+Origin: https://login.taobao.com
 Connection: keep-alive
-
-Cookie: cna=HkxQFdkfLWgCAS04mzUPF9vr; isg=BNzcapCY7QV0fJla2e3ZODixrvpO_ahU-AfgILbd_EeqAXyL3WWmD2JwZalckrjX; l=dBrlw9eIq8sAj4aGBOCwcuIRMGQ97IOYYuPRw2ZBi_5aX6L68CbOkhoKBFp6csWfT8Ye4_41Zzp9-etowXGR1d_fGzmxyxDc.; hng=CN%7Czh-CN%7CCNY; lid=xiaoxm_001; pnm_cku822=; t=0c7f408b84b590fbc69989916f491575; uc3=lg2=VFC%2FuZ9ayeYq2g%3D%3D&vt3=F8dByus%2B2Gg4F6q%2FuOM%3D&nk2=G4mgLCtQ61Ct4Q%3D%3D&id2=VAYhfVsUHpas; tracknick=xiaoxm_001; uc4=nk4=0%40GToWF7xjYYbAUv7x%2Fo2bwumbKiqP&id4=0%40Vh%2BzeYCIjUuF6BHgRPA5dDOIqLo%3D; lgc=xiaoxm_001; _tb_token_=e1dfeb3a306e; cookie2=11fe8bce6afc6cc4de9118c4ebecad78; _l_g_=Ug%3D%3D; _nk_=xiaoxm_001; dnk=xiaoxm_001; dnk=xiaoxm_001; uc1=cookie16=UtASsssmPlP%2Ff1IHDsDaPRu%2BPw%3D%3D&cookie21=VFC%2FuZ9ainBZ&cookie15=VFC%2FuZ9ayeYq2g%3D%3D&existShop=false&pas=0&cookie14=UoTbmE0pYW6duw%3D%3D&tag=8&lng=zh_CN; _l_g_=Ug%3D%3D; unb=779592136; cookie1=BxoBh8tJNYJ8aIsSu%2Bo62b6SDl1SOXU%2Fivzz8KLg3r0%3D; login=true; cookie17=VAYhfVsUHpas; _nk_=xiaoxm_001; sg=169; csg=097330ee"""
+Referer: https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F
+Cookie: _uab_collina=157836170112456279868722; mt=ci=0_0; t=43449f292592335cd8e157ac6379125d; cookie2=19ea2558ef5a273e6556b3b4d5d9e322; _tb_token_=ee14100576bb7; isg=BNrac6FnUMbjkNxqy3QhAoxLKIA8o3bOKnGm6uRTG204V36RzZ6r9AnlI-PunNZ9; l=dBIyU6RmQTWo1LGQBOfZqsKV3KQT0IRVGkPzcZeXlICPO6fH5-QAWZDDkn8MCn1VnsZWJ35u5_48BP8utyznd9KwNBQ7XPQondLh.; XSRF-TOKEN=a0150c90-ea8b-4bbd-b2bd-301ee4f44f1e; v=0; cna=ZNGaFuaioG4CASRwajKEc6KI
+Upgrade-Insecure-Requests: 1
+Pragma: no-cache
+Cache-Control: no-cache"""
         actUrl,actParamDto,err =req.Req().readUrlParam(str)
         self.assertIsNone(err)
         expParamDto={
-            "_ksTS": "1575667351284_693",
-            "callback": "jsonp694",
-            "mid": "w-14896417856-0",
-            "wid": "14896417856",
-            "path": "/category.htm"
+            "redirectURL": "https%3A%2F%2Fwww.taobao.com%2F"
         }
-        expUrl="/i/asynSearch.htm"
+        expUrl="/member/login.jhtml"
         self.assertEqual(actUrl,expUrl)
         self.assertEqual(actParamDto,expParamDto)
 
@@ -101,15 +103,194 @@ Cookie: cna=HkxQFdkfLWgCAS04mzUPF9vr; isg=BNzcapCY7QV0fJla2e3ZODixrvpO_ahU-AfgIL
         actUrl,actParamDto,err =req.Req().readUrlParamFile(filePath)
         self.assertIsNone(err)
         expParamDto={
-            "_ksTS": "1575667351284_693",
-            "callback": "jsonp694",
-            "mid": "w-14896417856-0",
-            "wid": "14896417856",
-            "path": "/category.htm"
+            "redirectURL": "https%3A%2F%2Fwww.taobao.com%2F"
         }
-        expUrl="/i/asynSearch.htm"
+        expUrl="/member/login.jhtml"
         self.assertEqual(actUrl,expUrl)
         self.assertEqual(actParamDto,expParamDto)
+    def testReadParamPost(self):
+        str = """
+TPL_username
+TPL_password
+ncoSig
+ncoSessionid
+ncoToken=81ba8ac206cdbe98463d8af3ba1cd3ec6ecb82b3
+slideCodeShow=false
+useMobile=false
+lang=zh_CN
+loginsite=0
+newlogin=0
+TPL_redirect_url=https://www.taobao.com/
+from=tb
+fc=default
+style=default
+css_style
+keyLogin=false
+qrLogin=true
+newMini=false
+newMini2=false
+tid
+loginType=3
+minititle
+minipara
+pstrong
+sign
+need_sign
+isIgnore
+full_redirect
+sub_jump
+popid
+callback
+guf
+not_duplite_str
+need_user_id
+poy
+gvfdcname=10
+gvfdcre=68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643939314943676426663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246
+from_encoding
+sub
+TPL_password_2
+loginASR=1
+loginASRSuc=1
+allp
+oslanguage=zh-CN
+sr=1920*1080
+osVer
+naviVer=firefox|71
+osACN=Mozilla
+osAV=5.0 (Windows)
+osPF=Win32
+miserHardInfo
+appkey=00000000
+nickLoginLink
+mobileLoginLink=https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true
+showAssistantLink
+um_token=T90A4D3B40710C978FF908CBCBA0F4420FCB7483FE19BC35EC493E234B5
+ua"""
+        actDict =req.Req().readParamPost(str)
+        expDict={
+            "TPL_username": "", 
+            "TPL_password": "", 
+            "ncoSig": "", 
+            "ncoSessionid": "", 
+            "ncoToken": "81ba8ac206cdbe98463d8af3ba1cd3ec6ecb82b3", 
+            "slideCodeShow": "false", 
+            "useMobile": "false", 
+            "lang": "zh_CN", 
+            "loginsite": "0", 
+            "newlogin": "0", 
+            "TPL_redirect_url": "https://www.taobao.com/", 
+            "from": "tb", 
+            "fc": "default", 
+            "style": "default", 
+            "css_style": "", 
+            "keyLogin": "false", 
+            "qrLogin": "true", 
+            "newMini": "false", 
+            "newMini2": "false", 
+            "tid": "", 
+            "loginType": "3", 
+            "minititle": "", 
+            "minipara": "", 
+            "pstrong": "", 
+            "sign": "", 
+            "need_sign": "", 
+            "isIgnore": "", 
+            "full_redirect": "", 
+            "sub_jump": "", 
+            "popid": "", 
+            "callback": "", 
+            "guf": "", 
+            "not_duplite_str": "", 
+            "need_user_id": "", 
+            "poy": "", 
+            "gvfdcname": "10", 
+            "gvfdcre": "68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643939314943676426663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246", 
+            "from_encoding": "", 
+            "sub": "", 
+            "TPL_password_2": "", 
+            "loginASR": "1", 
+            "loginASRSuc": "1", 
+            "allp": "", 
+            "oslanguage": "zh-CN", 
+            "sr": "1920*1080", 
+            "osVer": "", 
+            "naviVer": "firefox|71", 
+            "osACN": "Mozilla", 
+            "osAV": "5.0 (Windows)", 
+            "osPF": "Win32", 
+            "miserHardInfo": "", 
+            "appkey": "00000000", 
+            "nickLoginLink": "", 
+            "mobileLoginLink": "https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true", 
+            "showAssistantLink": "", 
+            "um_token": "T90A4D3B40710C978FF908CBCBA0F4420FCB7483FE19BC35EC493E234B5", 
+            "ua": ""
+        }
+        self.assertEqual(actDict,expDict)
+    def testReadParamPostFile(self):
+        filePath = utils.absPath("tests/data/param.txt")
+        actDict =req.Req().readParamPostFile(filePath)
+        expDict={
+            "TPL_username": "", 
+            "TPL_password": "", 
+            "ncoSig": "", 
+            "ncoSessionid": "", 
+            "ncoToken": "81ba8ac206cdbe98463d8af3ba1cd3ec6ecb82b3", 
+            "slideCodeShow": "false", 
+            "useMobile": "false", 
+            "lang": "zh_CN", 
+            "loginsite": "0", 
+            "newlogin": "0", 
+            "TPL_redirect_url": "https://www.taobao.com/", 
+            "from": "tb", 
+            "fc": "default", 
+            "style": "default", 
+            "css_style": "", 
+            "keyLogin": "false", 
+            "qrLogin": "true", 
+            "newMini": "false", 
+            "newMini2": "false", 
+            "tid": "", 
+            "loginType": "3", 
+            "minititle": "", 
+            "minipara": "", 
+            "pstrong": "", 
+            "sign": "", 
+            "need_sign": "", 
+            "isIgnore": "", 
+            "full_redirect": "", 
+            "sub_jump": "", 
+            "popid": "", 
+            "callback": "", 
+            "guf": "", 
+            "not_duplite_str": "", 
+            "need_user_id": "", 
+            "poy": "", 
+            "gvfdcname": "10", 
+            "gvfdcre": "68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643939314943676426663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246", 
+            "from_encoding": "", 
+            "sub": "", 
+            "TPL_password_2": "", 
+            "loginASR": "1", 
+            "loginASRSuc": "1", 
+            "allp": "", 
+            "oslanguage": "zh-CN", 
+            "sr": "1920*1080", 
+            "osVer": "", 
+            "naviVer": "firefox|71", 
+            "osACN": "Mozilla", 
+            "osAV": "5.0 (Windows)", 
+            "osPF": "Win32", 
+            "miserHardInfo": "", 
+            "appkey": "00000000", 
+            "nickLoginLink": "", 
+            "mobileLoginLink": "https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true", 
+            "showAssistantLink": "", 
+            "um_token": "T90A4D3B40710C978FF908CBCBA0F4420FCB7483FE19BC35EC493E234B5", 
+            "ua": ""
+        }
+        self.assertEqual(actDict,expDict)
     # # 需要先网页打开，并且按F12 定位到XHR
     # def testWrite(self):
     #     subPath = "test_data/davebella"

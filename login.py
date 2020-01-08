@@ -3,6 +3,8 @@ import os
 import json
 
 import requests
+import req
+import utils
 
 """
 获取详细教程、获取代码帮助、提出意见建议
@@ -69,57 +71,68 @@ class UsernameLogin:
         验证用户名密码，并获取st码申请URL
         :return: 验证成功返回st码申请地址
         """
-        verify_password_headers = {
-            'Connection': 'keep-alive',
-            'Cache-Control': 'no-cache',
-            'Origin': 'https://login.taobao.com',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Referer': 'https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F',
-        }
-        # 登录toabao.com提交的数据，如果登录失败，可以从浏览器复制你的form data
-        verify_password_data = {
-            'TPL_username': self.username,
-            'ncoToken': '81ba2ac20acdbe7846318af36a1cdaec6e5b82b8',
-            'slideCodeShow': 'false',
-            'useMobile': 'false',
-            'lang': 'zh_CN',
-            'loginsite': 0,
-            'newlogin': 0,
-            'TPL_redirect_url': 'https://www.taobao.com/',
-            'from': 'tb',
-            'fc': 'default',
-            'style': 'default',
-            'keyLogin': 'false',
-            'qrLogin': 'true',
-            'newMini': 'false',
-            'newMini2': 'false',
-            'loginType': '3',
-            'gvfdcname': '10',
-            'gvfdcre': '68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643964555731426A26663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246',
-            'TPL_password_2': self.TPL_password2,
-            'loginASR': '1',
-            'loginASRSuc': '1',
-            'oslanguage': 'zh-CN',
-            'sr': '1920*1080',
-            'naviVer': 'firefox|71',
-            'osACN': 'Mozilla',
-            'osAV': '5.0 (Windows)',
-            'osPF': 'Win32',
-            'appkey': '00000000',
-            'mobileLoginLink': 'https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true',
-            'showAssistantLink': '',
-            'um_token': 'T0EC0F6614ED31DC032C7F3B6921A1A3A3E94A3DBBBECBB717941D00056',
-            'ua': self.ua
-        }
+        # verify_password_headers = {
+        #     'Connection': 'keep-alive',
+        #     'Cache-Control': 'no-cache',
+        #     'Origin': 'https://login.taobao.com',
+        #     'Upgrade-Insecure-Requests': '1',
+        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0',
+        #     'Content-Type': 'application/x-www-form-urlencoded',
+        #     'Referer': 'https://login.taobao.com/member/login.jhtml?redirectURL=https%3A%2F%2Fwww.taobao.com%2F',
+        # }
+        # 
+        # verify_password_data = {
+        #     'TPL_username': self.username,
+        #     'ncoToken': '81ba2ac20acdbe7846318af36a1cdaec6e5b82b8',
+        #     'slideCodeShow': 'false',
+        #     'useMobile': 'false',
+        #     'lang': 'zh_CN',
+        #     'loginsite': 0,
+        #     'newlogin': 0,
+        #     'TPL_redirect_url': 'https://www.taobao.com/',
+        #     'from': 'tb',
+        #     'fc': 'default',
+        #     'style': 'default',
+        #     'keyLogin': 'false',
+        #     'qrLogin': 'true',
+        #     'newMini': 'false',
+        #     'newMini2': 'false',
+        #     'loginType': '3',
+        #     'gvfdcname': '10',
+        #     'gvfdcre': '68747470733A2F2F6C6F67696E2E74616F62616F2E636F6D2F6D656D6265722F6C6F676F75742E6A68746D6C3F73706D3D613231626F2E323031372E3735343839343433372E372E356166393131643964555731426A26663D746F70266F75743D7472756526726564697265637455524C3D68747470732533412532462532467777772E74616F62616F2E636F6D253246',
+        #     'TPL_password_2': self.TPL_password2,
+        #     'loginASR': '1',
+        #     'loginASRSuc': '1',
+        #     'oslanguage': 'zh-CN',
+        #     'sr': '1920*1080',
+        #     'naviVer': 'firefox|71',
+        #     'osACN': 'Mozilla',
+        #     'osAV': '5.0 (Windows)',
+        #     'osPF': 'Win32',
+        #     'appkey': '00000000',
+        #     'mobileLoginLink': 'https://login.taobao.com/member/login.jhtml?redirectURL=https://www.taobao.com/&useMobile=true',
+        #     'showAssistantLink': '',
+        #     'um_token': 'T0EC0F6614ED31DC032C7F3B6921A1A3A3E94A3DBBBECBB717941D00056',
+        #     'ua': self.ua
+        # }
+        headerPath=os.path.join(utils.DATA_PATH,utils.DATA_PATH_HEADER)
+        verify_password_headers,err=req.Req().readHeaderFile(headerPath)
+        if err != None:
+            return None,err
+        del verify_password_headers["Cookie"]
+        '''登录toabao.com提交的数据，如果登录失败，可以从浏览器复制你的form data'''
+        paramPath=os.path.join(utils.DATA_PATH,utils.DATA_PATH_PARAM)
+        verify_password_data=req.Req().readParamPostFile(paramPath)
+        verify_password_data["TPL_username"]=self.username
+        verify_password_data["TPL_password_2"]=self.TPL_password2
+        verify_password_data["ua"]=self.ua
         try:
             response = s.post(self.verify_password_url, headers=verify_password_headers, data=verify_password_data,
                               timeout=self.timeout)
             response.raise_for_status()
             # 从返回的页面中提取申请st码地址
         except Exception as e:
-            print('验证用户名和密码请求失败，原因：')
+            print('验证用户名和密码请求失败，原因：%s' % (e))
             return None, str(e)
         # 提取申请st码url
         apply_st_url_match = re.search(r'<script src="(.*?)"></script>', response.text)
@@ -255,15 +268,3 @@ class UsernameLogin:
             return nick_name_match.group(1),None
         else:
             return None,'获取淘宝昵称失败！response：{}'.format(response.text)
-
-
-if __name__ == '__main__':
-    # 淘宝用户名
-    username = os.getenv("T_NAME")
-    # 淘宝重要参数，从浏览器或抓包工具中复制，可重复使用
-    ua = os.getenv("T_UA")
-    # 加密后的密码，从浏览器或抓包工具中复制，可重复使用
-    TPL_password2 = os.getenv("T_PWD2")
-    ul = UsernameLogin(username, ua, TPL_password2)
-    err=ul.login()
-    print(err)

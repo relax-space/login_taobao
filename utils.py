@@ -1,23 +1,9 @@
 import re
 import os
 
-TEMP = "temp_data"
-FILE_NAME_REQ="reqs"
-FILE_NAME_ITEMMASTER="item_master"
-FILE_NAME_ITEMDETAIL="item_detail"
-FILE_NAME_ITEMDETAIL_ERROR="item_detail_error"
-
-HEADER_REQ = {
-    "Accept":
-    "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
-    "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3",
-    "Accept-Encoding": "gzip, deflate, br",
-    "X-Requested-With": "XMLHttpRequest",
-    "Connection": "keep-alive",
-    "User-Agent":
-    "Mozilla/5.0 (X11; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0",
-    "TE": "Trailers"
-}
+DATA_PATH = "data"
+DATA_PATH_HEADER = "header.txt"
+DATA_PATH_PARAM = "param.txt"
 
 
 def strToDict(contents,sep1="\n",sep2="="):
@@ -27,7 +13,12 @@ def strToDict(contents,sep1="\n",sep2="="):
         ln=line.strip()
         if len(ln)==0:
             continue
-        factor1,factor2 = ln.split(sep2)
+        index = ln.find(sep2)
+        if index == -1:
+            dict[ln] = ""
+            continue
+        factor1=ln[:index] 
+        factor2=ln[index+1:] 
         dict[factor1] = factor2
     return dict
     
@@ -45,6 +36,13 @@ def regex(contents,sep1,sep2="\n"):
     patten = r"%s(.+?)%s|$" % (sep1,sep2)
     result = re.findall(patten, contents)[0]
     return result
+
+def regexSub(contents,replace,sep1,sep2="\n"):
+    contents=contents+sep2
+    patten = r"%s(.+?)%s" % (sep1,sep2)
+    result = re.sub(patten,replace, contents)
+    return result.strip()
+
 
 def regexEn(contents):
     pat = re.compile('[a-zA-Z]+')
